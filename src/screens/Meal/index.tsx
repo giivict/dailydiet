@@ -45,6 +45,14 @@ export function Meal() {
 
   const navigation = useNavigation<NavigationProps>();
 
+  function handleEditMeal() {
+    navigation.navigate("edit");
+  }
+
+  function handleGoHome() {
+    navigation.navigate("home");
+  }
+
   async function fetchRegisteredMeal() {
     try {
       const allMeals = await mealGetAll();
@@ -91,7 +99,7 @@ export function Meal() {
   return (
     <Container>
       <Header>
-        <HeaderTitle title="Refeição" />
+        <HeaderTitle title="Refeição" onPress={handleGoHome} />
       </Header>
       <Content>
         <Form>
@@ -115,6 +123,7 @@ export function Meal() {
           option="PRIMARY"
           title="Editar refeição"
           icon={<PencilSimpleLine size={18} color={theme.COLORS.WHITE} />}
+          onPress={handleEditMeal}
         />
         <Button
           option="SECUNDARY"
