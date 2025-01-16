@@ -31,11 +31,18 @@ export function Home() {
   const [groupedMeals, setGroupedMeals] = useState<
     { title: string; data: Meal[] }[]
   >([]);
+  const [statistics, setStatistics] = useState({
+    percentage: 0,
+    totalMeals: 0,
+    healthyMeals: 0,
+    unhealthyMeals: 0,
+    bestSequence: 0,
+  });
 
   const navigation = useNavigation<NavigationProps>();
 
   function handleStatistics() {
-    navigation.navigate("statistics");
+    navigation.navigate("statistics", { statistics });
   }
 
   function handleNewMeal() {
@@ -71,6 +78,48 @@ export function Home() {
     }
   }
 
+  async function fetchAndCalculateStatistics() {
+    try {
+      const data = await mealGetAll();
+      setMeals(data);
+
+      const totalMeals = data.length;
+      const healthyMeals = data.filter((meal) => meal.isHealthy).length;
+      const unhealthyMeals = totalMeals - healthyMeals;
+
+      let bestSequence = 0;
+      let currentSequence = 0;
+      data.forEach((meal) => {
+        if (meal.isHealthy) {
+          currentSequence++;
+          if (currentSequence > bestSequence) {
+            bestSequence = currentSequence;
+          }
+        } else {
+          currentSequence = 0;
+        }
+      });
+
+      const percentage =
+        totalMeals > 0
+          ? parseFloat(((healthyMeals / totalMeals) * 100).toFixed(2))
+          : 0;
+
+      const stats = {
+        percentage,
+        totalMeals,
+        healthyMeals,
+        unhealthyMeals,
+        bestSequence,
+      };
+
+      setStatistics(stats);
+      groupMealsByDate(data);
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível calcular as estatísticas.");
+    }
+  }
+
   useFocusEffect(
     useCallback(() => {
       fetchMeals();
@@ -82,6 +131,12 @@ export function Home() {
       groupMealsByDate(meals);
     }
   }, [meals]);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchAndCalculateStatistics();
+    }, [])
+  );
   return (
     <Container>
       <HomeHeader>
@@ -90,9 +145,26 @@ export function Home() {
 
       <Content>
         <PercentCard
-          icon={<ArrowUpRight size={24} color={theme.COLORS.GREEN.dark} />}
+          title={`${statistics.percentage}%`}
+          subtitle="das refeições dentro da dieta"
+          icon={
+            <ArrowUpRight
+              size={24}
+              color={
+                statistics.percentage >= 50
+                  ? theme.COLORS.GREEN.dark
+                  : theme.COLORS.RED.dark
+              }
+            />
+          }
           iconPosition={{ right: 8, top: 8 }}
           onPress={handleStatistics}
+          backgroundColor={{
+            backgroundColor:
+              statistics.percentage >= 50
+                ? theme.COLORS.GREEN.light
+                : theme.COLORS.RED.light,
+          }}
         />
         <Tittle>Refeições</Tittle>
         <Button
@@ -103,6 +175,7 @@ export function Home() {
         />
 
         <SectionList
+          style={{ position: "relative" }}
           sections={groupedMeals}
           keyExtractor={(item, index) => `${item.id}-${index}`}
           renderSectionHeader={({ section: { title } }) => (
@@ -126,7 +199,6 @@ export function Home() {
             />
           )}
           showsVerticalScrollIndicator={false}
-          stickySectionHeadersEnabled
         />
       </Content>
     </Container>

@@ -3,6 +3,11 @@ import { Container, Percentage, Description, IconButton } from "./styles";
 import { TouchableOpacityProps } from "react-native";
 
 type Props = TouchableOpacityProps & {
+  title: string;
+  subtitle: string;
+  backgroundColor?: {
+    backgroundColor?: string;
+  };
   icon?: ReactNode;
   iconPosition?: {
     top?: number;
@@ -12,14 +17,21 @@ type Props = TouchableOpacityProps & {
   };
 };
 
-export function PercentCard({ icon, iconPosition, ...rest }: Props) {
+export function PercentCard({
+  title,
+  backgroundColor,
+  subtitle,
+  icon,
+  iconPosition,
+  ...rest
+}: Props) {
   return (
-    <Container>
+    <Container style={backgroundColor}>
       <IconButton style={iconPosition} {...rest}>
         {icon}
       </IconButton>
-      <Percentage>100%</Percentage>
-      <Description>das refeições dentro da dieta</Description>
+      <Percentage>{title}</Percentage>
+      <Description>{subtitle}</Description>
     </Container>
   );
 }

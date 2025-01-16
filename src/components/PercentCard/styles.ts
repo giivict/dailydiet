@@ -3,7 +3,6 @@ import styled from "styled-components/native";
 
 export const Container = styled.View`
   width: 100%;
-  background-color: ${({ theme }) => theme.COLORS.GREEN.light};
   padding: 24px;
   gap: 2px;
   border-radius: 8px;

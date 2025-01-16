@@ -11,7 +11,15 @@ export type RootStackParamList = {
   home: undefined;
   created: { option: "Healthy" | "UnHealthy" | undefined };
   new: undefined;
-  statistics: undefined;
+  statistics: {
+    statistics: {
+      percentage: number;
+      totalMeals: number;
+      healthyMeals: number;
+      unhealthyMeals: number;
+      bestSequence: number;
+    };
+  };
   meal: { mealId: string };
   edit: { mealId: string };
 };
