@@ -46,7 +46,9 @@ export function Meal() {
   const navigation = useNavigation<NavigationProps>();
 
   function handleEditMeal() {
-    navigation.navigate("edit");
+    if (meal) {
+      navigation.navigate("edit", { mealId: meal.id });
+    }
   }
 
   function handleGoHome() {

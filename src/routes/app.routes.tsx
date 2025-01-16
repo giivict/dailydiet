@@ -13,7 +13,7 @@ export type RootStackParamList = {
   new: undefined;
   statistics: undefined;
   meal: { mealId: string };
-  edit: undefined;
+  edit: { mealId: string };
 };
 
 const { Navigator, Screen } = createNativeStackNavigator<RootStackParamList>();
