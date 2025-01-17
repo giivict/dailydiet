@@ -11,6 +11,7 @@ export const Container = styled.View`
 
 export const Content = styled(TouchableOpacity)`
   flex-direction: row;
+
   gap: 12px;
   padding: 16px;
   width: 100%;
@@ -46,6 +47,9 @@ export const Meal = styled.Text`
     font-size: ${theme.FONT_SIZE.LG}px;
     color: ${theme.COLORS.GRAY[200]};
     font-family: ${theme.FONT_FAMILY.REGULAR};
+
+    margin-right: 60px;
+    flex-shrink: 1;
   `}
 `;
 

@@ -5,7 +5,6 @@ import {
   Meal,
   Separator,
   Hour,
-  Date,
   StatusIndicator,
 } from "./styles";
 
@@ -17,20 +16,13 @@ type Props = TouchableOpacityProps & {
   showDate?: boolean;
 };
 
-export function MealCard({
-  date,
-  meal,
-  hour,
-  indicator,
-  showDate,
-  ...rest
-}: Props) {
+export function MealCard({ meal, hour, indicator, showDate, ...rest }: Props) {
   return (
     <Container>
       <Content {...rest}>
         <Hour>{hour}</Hour>
         <Separator>|</Separator>
-        <Meal>{meal}</Meal>
+        <Meal numberOfLines={1}>{meal}</Meal>
         <StatusIndicator option={indicator} />
       </Content>
     </Container>

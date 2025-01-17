@@ -220,7 +220,6 @@ export function Home() {
           )}
           showsVerticalScrollIndicator={false}
           stickySectionHeadersEnabled
-          contentContainerStyle={groupedMeals.length === 0 && { flex: 1 }}
         />
       </Content>
     </Container>
