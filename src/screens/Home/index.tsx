@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Alert, SectionList } from "react-native";
+import { Alert, SectionList, TouchableOpacity, View } from "react-native";
 import { Container, Content, HomeHeader, Tittle } from "./styles";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -193,24 +193,30 @@ export function Home() {
           sections={groupedMeals}
           keyExtractor={(item, index) => `${item.id}-${index}`}
           renderSectionHeader={({ section: { title } }) => (
-            <Tittle
+            <View
               style={{
                 backgroundColor: theme.COLORS.GRAY[700],
-                fontSize: theme.FONT_SIZE.XL,
-                fontFamily: theme.FONT_FAMILY.BOLD,
-                color: theme.COLORS.GRAY[100],
               }}
             >
-              {title}
-            </Tittle>
+              <Tittle
+                style={{
+                  fontSize: theme.FONT_SIZE.XL,
+                  fontFamily: theme.FONT_FAMILY.BOLD,
+                  color: theme.COLORS.GRAY[100],
+                }}
+              >
+                {title}
+              </Tittle>
+            </View>
           )}
           renderItem={({ item }) => (
-            <MealCard
-              meal={item.name}
-              hour={item.hour}
-              indicator={item.isHealthy ? "Sim" : "Não"}
-              onPress={() => handleMealDetails(item.id)}
-            />
+            <TouchableOpacity onPress={() => handleMealDetails(item.id)}>
+              <MealCard
+                meal={item.name}
+                hour={item.hour}
+                indicator={item.isHealthy ? "Sim" : "Não"}
+              />
+            </TouchableOpacity>
           )}
           ListEmptyComponent={() => (
             <ListIsEmpty
@@ -219,7 +225,7 @@ export function Home() {
             />
           )}
           showsVerticalScrollIndicator={false}
-          stickySectionHeadersEnabled
+          contentContainerStyle={{ margin: 0 }}
         />
       </Content>
     </Container>

@@ -9,7 +9,7 @@ export const Container = styled.View`
   flex: 1;
 `;
 
-export const Content = styled(TouchableOpacity)`
+export const Content = styled.View`
   flex-direction: row;
 
   gap: 12px;
