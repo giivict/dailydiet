@@ -7,11 +7,11 @@ export const Container = styled.View`
 
 export const HomeHeader = styled.View`
   padding: 24px;
+  margin-top: 20px;
 `;
 export const Content = styled.View`
   flex: 1;
   padding: 24px;
-  margin-top: 40px;
 `;
 
 export const Tittle = styled.Text`

@@ -5,6 +5,7 @@ export const Container = styled.View`
   flex-direction: row;
   margin-top: 50px;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const Logo = styled.Image`
@@ -13,6 +14,10 @@ export const Logo = styled.Image`
 `;
 
 export const Profile = styled.Image`
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  border-width: 2px;
+
+  border-color: ${({ theme }) => theme.COLORS.GRAY[100]};
 `;

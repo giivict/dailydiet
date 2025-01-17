@@ -15,6 +15,7 @@ import theme from "src/theme";
 import { ArrowUpRight, Plus } from "phosphor-react-native";
 
 import { mealGetAll } from "@storage/meal/mealGetAll";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 type Meal = {
   id: string;
@@ -175,16 +176,15 @@ export function Home() {
         />
 
         <SectionList
-          style={{ position: "relative" }}
           sections={groupedMeals}
           keyExtractor={(item, index) => `${item.id}-${index}`}
           renderSectionHeader={({ section: { title } }) => (
             <Tittle
               style={{
+                backgroundColor: theme.COLORS.GRAY[700],
                 fontSize: theme.FONT_SIZE.XL,
                 fontFamily: theme.FONT_FAMILY.BOLD,
                 color: theme.COLORS.GRAY[100],
-                paddingVertical: 8,
               }}
             >
               {title}
@@ -199,6 +199,8 @@ export function Home() {
             />
           )}
           showsVerticalScrollIndicator={false}
+          stickySectionHeadersEnabled
+          contentContainerStyle={groupedMeals.length === 0 && { flex: 1 }}
         />
       </Content>
     </Container>
