@@ -16,6 +16,7 @@ import { ArrowUpRight, Plus } from "phosphor-react-native";
 
 import { mealGetAll } from "@storage/meal/mealGetAll";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { ListIsEmpty } from "@components/ListIsEmpty";
 
 type Meal = {
   id: string;
@@ -196,6 +197,12 @@ export function Home() {
               hour={item.hour}
               indicator={item.isHealthy ? "Sim" : "Não"}
               onPress={() => handleMealDetails(item.id)}
+            />
+          )}
+          ListEmptyComponent={() => (
+            <ListIsEmpty
+              title="Não há refeições registradas"
+              subtitle="Bora cadastrar uma refeição?"
             />
           )}
           showsVerticalScrollIndicator={false}
