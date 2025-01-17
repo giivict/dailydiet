@@ -10,13 +10,12 @@ import { Header } from "@components/Header";
 import { PercentCard } from "@components/PercentCard";
 import { Button } from "@components/Button";
 import { MealCard } from "@components/MealCard";
+import { ListIsEmpty } from "@components/ListIsEmpty";
 
 import theme from "src/theme";
 import { ArrowUpRight, Plus } from "phosphor-react-native";
 
 import { mealGetAll } from "@storage/meal/mealGetAll";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { ListIsEmpty } from "@components/ListIsEmpty";
 
 type Meal = {
   id: string;
@@ -56,7 +55,21 @@ export function Home() {
   }
 
   function groupMealsByDate(mealsList: Meal[]) {
-    const grouped = mealsList.reduce((acc, meal) => {
+    const mealsWithParsedDate = mealsList.map((meal) => {
+      const [day, month, year] = meal.date.split(".");
+      return {
+        ...meal,
+        formattedDate: `${year}-${month}-${day}`,
+      };
+    });
+
+    const sortedMeals = mealsWithParsedDate.sort((a, b) => {
+      const dateTimeA = new Date(`${a.formattedDate}T${a.hour}`);
+      const dateTimeB = new Date(`${b.formattedDate}T${b.hour}`);
+      return dateTimeB.getTime() - dateTimeA.getTime();
+    });
+
+    const grouped = sortedMeals.reduce((acc, meal) => {
       const dateIndex = acc.findIndex((group) => group.title === meal.date);
 
       if (dateIndex >= 0) {
@@ -66,7 +79,7 @@ export function Home() {
       }
 
       return acc;
-    }, [] as { title: string; data: typeof meals }[]);
+    }, [] as { title: string; data: Meal[] }[]);
 
     setGroupedMeals(grouped);
   }
