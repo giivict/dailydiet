@@ -8,6 +8,7 @@ export const Container = styled(SafeAreaView)`
 
 export const HomeHeader = styled.View`
   padding: 24px;
+  margin-top: 20px;
 `;
 export const Content = styled.View`
   flex: 1;
