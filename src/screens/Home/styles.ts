@@ -11,7 +11,6 @@ export const HomeHeader = styled.View`
   margin-top: 20px;
 `;
 export const Content = styled.View`
-  flex: 1;
   padding: 24px;
 `;
 

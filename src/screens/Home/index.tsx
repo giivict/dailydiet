@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Alert, SectionList, TouchableOpacity, View } from "react-native";
+import { Alert, SectionList, Text, TouchableOpacity, View } from "react-native";
 import { Container, Content, HomeHeader, Tittle } from "./styles";
 
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
@@ -187,28 +187,12 @@ export function Home() {
           icon={<Plus size={18} color={theme.COLORS.WHITE} />}
           title="Nova refeição"
           onPress={handleNewMeal}
+          style={{ marginBottom: 20 }}
         />
 
         <SectionList
           sections={groupedMeals}
           keyExtractor={(item, index) => `${item.id}-${index}`}
-          renderSectionHeader={({ section: { title } }) => (
-            <View
-              style={{
-                backgroundColor: theme.COLORS.GRAY[700],
-              }}
-            >
-              <Tittle
-                style={{
-                  fontSize: theme.FONT_SIZE.XL,
-                  fontFamily: theme.FONT_FAMILY.BOLD,
-                  color: theme.COLORS.GRAY[100],
-                }}
-              >
-                {title}
-              </Tittle>
-            </View>
-          )}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleMealDetails(item.id)}>
               <MealCard
@@ -218,14 +202,25 @@ export function Home() {
               />
             </TouchableOpacity>
           )}
-          ListEmptyComponent={() => (
-            <ListIsEmpty
-              title="Não há refeições registradas"
-              subtitle="Bora cadastrar uma refeição?"
-            />
+          renderSectionHeader={({ section: { title } }) => (
+            <View
+              style={{
+                backgroundColor: theme.COLORS.GRAY[700],
+                marginBottom: 10,
+                paddingTop: 20,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: theme.FONT_SIZE.XL,
+                  fontFamily: theme.FONT_FAMILY.BOLD,
+                  color: theme.COLORS.GRAY[100],
+                }}
+              >
+                {title}
+              </Text>
+            </View>
           )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ margin: 0 }}
         />
       </Content>
     </Container>
