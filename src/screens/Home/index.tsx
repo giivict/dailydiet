@@ -221,6 +221,7 @@ export function Home() {
               </Text>
             </View>
           )}
+          showsVerticalScrollIndicator={false}
         />
       </Content>
     </Container>
