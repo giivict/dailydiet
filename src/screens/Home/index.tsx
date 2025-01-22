@@ -16,6 +16,7 @@ import theme from "src/theme";
 import { ArrowUpRight, Plus } from "phosphor-react-native";
 
 import { mealGetAll } from "@storage/meal/mealGetAll";
+import { Loading } from "@components/Loading";
 
 type Meal = {
   id: string;
@@ -28,6 +29,7 @@ type Meal = {
 type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const [meals, setMeals] = useState<Meal[]>([]);
   const [groupedMeals, setGroupedMeals] = useState<
     { title: string; data: Meal[] }[]
@@ -86,10 +88,13 @@ export function Home() {
 
   async function fetchMeals() {
     try {
+      setIsLoading(true);
       const data = await mealGetAll();
       setMeals(data);
     } catch (error) {
       Alert.alert("Refeições", "Erro ao carregar as refeições.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -190,39 +195,43 @@ export function Home() {
           style={{ marginBottom: 20 }}
         />
 
-        <SectionList
-          sections={groupedMeals}
-          keyExtractor={(item, index) => `${item.id}-${index}`}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleMealDetails(item.id)}>
-              <MealCard
-                meal={item.name}
-                hour={item.hour}
-                indicator={item.isHealthy ? "Sim" : "Não"}
-              />
-            </TouchableOpacity>
-          )}
-          renderSectionHeader={({ section: { title } }) => (
-            <View
-              style={{
-                backgroundColor: theme.COLORS.GRAY[700],
-                marginBottom: 10,
-                paddingTop: 20,
-              }}
-            >
-              <Text
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <SectionList
+            sections={groupedMeals}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleMealDetails(item.id)}>
+                <MealCard
+                  meal={item.name}
+                  hour={item.hour}
+                  indicator={item.isHealthy ? "Sim" : "Não"}
+                />
+              </TouchableOpacity>
+            )}
+            renderSectionHeader={({ section: { title } }) => (
+              <View
                 style={{
-                  fontSize: theme.FONT_SIZE.XL,
-                  fontFamily: theme.FONT_FAMILY.BOLD,
-                  color: theme.COLORS.GRAY[100],
+                  backgroundColor: theme.COLORS.GRAY[700],
+                  marginBottom: 10,
+                  paddingTop: 20,
                 }}
               >
-                {title}
-              </Text>
-            </View>
-          )}
-          showsVerticalScrollIndicator={false}
-        />
+                <Text
+                  style={{
+                    fontSize: theme.FONT_SIZE.XL,
+                    fontFamily: theme.FONT_FAMILY.BOLD,
+                    color: theme.COLORS.GRAY[100],
+                  }}
+                >
+                  {title}
+                </Text>
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </Content>
     </Container>
   );
