@@ -230,6 +230,12 @@ export function Home() {
               </View>
             )}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <ListIsEmpty
+                title="Não há refeições registradas"
+                subtitle="Crie sua primeira refeição"
+              />
+            )}
           />
         )}
       </Content>
