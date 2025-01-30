@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import { TouchableOpacityProps } from "react-native";
+import { Pressable, PressableProps } from "react-native";
 import { Container, Title } from "./styles";
 
-type Props = TouchableOpacityProps & {
+type Props = PressableProps & {
   title: string;
   icon?: ReactNode;
   option: "PRIMARY" | "SECUNDARY";
@@ -10,9 +10,13 @@ type Props = TouchableOpacityProps & {
 
 export function Button({ title, icon, option, ...rest }: Props) {
   return (
-    <Container option={option} {...rest}>
-      {icon}
-      <Title option={option}>{title}</Title>
-    </Container>
+    <Pressable {...rest}>
+      {({ pressed }) => (
+        <Container option={option} isPressed={pressed}>
+          {icon}
+          <Title option={option}>{title}</Title>
+        </Container>
+      )}
+    </Pressable>
   );
 }
